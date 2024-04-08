@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  sgbd-db:
+    image: mysql:latest
+    ports:
+      - "5434:5434"
+    environment:
+      MYSQL_DB: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD : madicke
+    networks:
+      - madicke
+networks:
+  madicke:
+    # driver: bridge
