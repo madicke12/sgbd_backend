@@ -13,31 +13,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        Int   @id @default(autoincrement())
-  email     String   @unique
-  nom      String?
-  Prenom    String?
-  role      String
-  mot_de_passe  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  nom          String?
+  Prenom       String?
+  role         String
+  mot_de_passe String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  cahierTexte  cahierTexte[]
+  empoiDuTemps empoiDuTemps[]
+  rapport      rapport[]
 }
 
 model cahierTexte {
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   date      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cour      String
   contenu   String
+  auteurId  Int
+  auteur    User     @relation(fields: [auteurId], references: [id])
 }
 
+model classRoom {
+  id           Int            @id @default(autoincrement())
+  nom          String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  empoiDuTemps empoiDuTemps[]
+}
 
-model cahierTexteItem {
-  id        Int   @id @default(autoincrement())
+model empoiDuTemps {
+  id        Int       @id @default(autoincrement())
+  date      DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  cour      String
+  contenu   String
+  auteurId  Int
+  classID   Int
+  classe    classRoom @relation(fields: [classID], references: [id])
+  auteur    User      @relation(fields: [auteurId], references: [id])
+}
+
+model rapport {
+  id        Int      @id @default(autoincrement())
   date      DateTime
   contenu   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  auteurId  Int
+  auteur    User     @relation(fields: [auteurId], references: [id])
 }
