@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthSignInDto, AuthSignUpDto } from './dto';
@@ -5,26 +6,22 @@ import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
   async login(dto: AuthSignInDto) {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: { email: dto.email },
-      });
-      if (!user) {
-        throw new ForbiddenException('Email ou mot de passe incorrect');
-      }
-      const isValide = await argon.verify(user.mot_de_passe, dto.mot_de_passe);
-      if (!isValide) {
-        throw new ForbiddenException('Email ou mot de passe incorrect');
-      }
-    } catch (e) {
-      if (e instanceof PrismaClientKnownRequestError) {
-        throw new ForbiddenException('Email ou mot de passe incorrect');
-      }
-      throw e;
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+    if (!user) {
+      throw new ForbiddenException('Email ou mot de passe incorrect');
     }
+    const isValide = await argon.verify(user.mot_de_passe, dto.mot_de_passe);
+    if (!isValide) {
+      throw new ForbiddenException('Email ou mot de passe incorrect');
+    }
+    delete user.mot_de_passe;
+    //  return user;
+
     return { message: 'Login' };
   }
   logout() {
@@ -44,7 +41,7 @@ export class AuthService {
         },
       });
       delete user.mot_de_passe;
-      return user;
+      return this.signToken(user.id, user.email);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
         if (e.code === 'P2002') {
@@ -53,5 +50,17 @@ export class AuthService {
       }
       throw e;
     }
+  }
+
+  async signToken(userId: number, email: string) {
+    const payload = {
+      sub: userId,
+      email: email,
+    };
+    const secret = process.env.JWT_SECRET;
+
+    return this.jwt.signAsync(payload, {
+      secret: secret,
+    });
   }
 }
