@@ -25,6 +25,7 @@ model User {
   cahierTexte  cahierTexte[]
   empoiDuTemps empoiDuTemps[]
   rapport      rapport[]
+  avis         avis[]
 }
 
 model cahierTexte {
@@ -62,6 +63,15 @@ model empoiDuTemps {
 model rapport {
   id        Int      @id @default(autoincrement())
   date      DateTime
+  contenu   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  auteurId  Int
+  auteur    User     @relation(fields: [auteurId], references: [id])
+}
+
+model avis {
+  id        Int      @id @default(autoincrement())
   contenu   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
