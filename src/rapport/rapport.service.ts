@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { rapport, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { Request } from 'express';
 import { RapportDto } from 'src/auth/dto';
 import { PrismaService } from 'src/prisma/prisma.service';
