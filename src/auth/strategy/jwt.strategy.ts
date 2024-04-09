@@ -19,6 +19,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
     delete user.mot_de_passe;
     // console.log(user);
-    return { user };
+    return user;
   }
 }

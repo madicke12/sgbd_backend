@@ -62,10 +62,9 @@ model empoiDuTemps {
 
 model rapport {
   id        Int      @id @default(autoincrement())
-  date      DateTime
   contenu   String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
   auteurId  Int
   auteur    User     @relation(fields: [auteurId], references: [id])
 }
