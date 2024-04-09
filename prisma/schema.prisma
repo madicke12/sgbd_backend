@@ -75,6 +75,5 @@ model avis {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   auteurId  Int
-  samba String
   auteur    User     @relation(fields: [auteurId], references: [id])
 }
