@@ -8,7 +8,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export class AuthService {
   constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
-  async login(dto: AuthSignInDto) {
+  async login(dto: AuthSignInDto): Promise<{ access_Token: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -19,10 +19,7 @@ export class AuthService {
     if (!isValide) {
       throw new ForbiddenException('Email ou mot de passe incorrect');
     }
-    delete user.mot_de_passe;
-    //  return user;
-
-    return { message: 'Login' };
+    return this.signToken(user.id, user.email);
   }
   logout() {
     return { message: 'Logout' };
@@ -40,7 +37,7 @@ export class AuthService {
           role: dto.role,
         },
       });
-      delete user.mot_de_passe;
+
       return this.signToken(user.id, user.email);
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
@@ -58,9 +55,9 @@ export class AuthService {
       email: email,
     };
     const secret = process.env.JWT_SECRET;
-
-    return this.jwt.signAsync(payload, {
+    const token = await this.jwt.signAsync(payload, {
       secret: secret,
     });
+    return { access_Token: token };
   }
 }
