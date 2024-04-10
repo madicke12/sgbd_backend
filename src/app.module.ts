@@ -8,10 +8,17 @@ import { RapportController } from './rapport/rapport.controller';
 import { AvisController } from './avis/avis.controller';
 import { RapportService } from './rapport/rapport.service';
 import { AvisService } from './avis/avis.service';
+import { CahierTexteController } from './cahier-texte/cahier-texte.controller';
+import { CahierTexteService } from './cahier-texte/cahier-texte.service';
 
 @Module({
   imports: [AuthModule, UserModule, PrismaModule],
-  controllers: [AppController, RapportController, AvisController],
-  providers: [AppService, RapportService, AvisService],
+  controllers: [
+    AppController,
+    RapportController,
+    AvisController,
+    CahierTexteController,
+  ],
+  providers: [AppService, RapportService, AvisService, CahierTexteService],
 })
 export class AppModule {}
