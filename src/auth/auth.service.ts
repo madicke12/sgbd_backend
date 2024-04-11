@@ -58,6 +58,7 @@ export class AuthService {
     const token = await this.jwt.signAsync(payload, {
       secret: secret,
     });
-    return { access_Token: token };
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    return { access_Token: token, user };
   }
 }

@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AvisService } from './avis.service';
-import { Request } from 'express';
 import { AvisDto } from 'src/auth/dto';
+import { AvisService } from './avis.service';
 @Controller('avis')
 export class AvisController {
   constructor(private avisService: AvisService) {}
@@ -15,7 +14,7 @@ export class AvisController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('creer')
-  creer(@Body() dto: AvisDto, @Req() req: Request) {
-    return this.avisService.create(dto, req);
+  creer(@Body() dto: AvisDto) {
+    return this.avisService.create(dto);
   }
 }

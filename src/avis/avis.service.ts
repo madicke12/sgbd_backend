@@ -13,7 +13,7 @@ export class AvisService {
     try {
       const avis = await this.prisma.avis.findMany();
       if (avis.length > 0) {
-        return { avis: avis };
+        return avis;
       }
       return { message: "Pas d'avis" };
     } catch (e) {
@@ -24,14 +24,13 @@ export class AvisService {
     }
   }
 
-  async create(dto: AvisDto, req: Request) {
-    const user = req.user as User;
+  async create(dto: AvisDto) {
     const avis = await this.prisma.avis.create({
       data: {
         contenu: dto.contenu,
-        auteurId: user.id,
+        matiere: dto.matiere,
       },
     });
-    return { avis };
+    return avis;
   }
 }

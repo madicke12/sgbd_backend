@@ -20,13 +20,15 @@ export class RapportService {
   }
 
   async creer(dto: RapportDto, req: Request) {
-    const contenu = dto.contenu;
     const user = req.user as User;
 
     const rapport = await this.prisma.rapport.create({
       data: {
-        contenu: contenu,
+        contenu: dto.rapport,
         auteurId: user.id,
+        Professeur: dto.professeur,
+        nom: dto.nomRapport,
+        matiere: dto.matiere,
       },
     });
     return { rapport };

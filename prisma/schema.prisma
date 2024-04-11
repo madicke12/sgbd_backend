@@ -25,7 +25,6 @@ model User {
   cahierTexte  cahierTexte[]
   empoiDuTemps empoiDuTemps[]
   rapport      rapport[]
-  avis         avis[]
 }
 
 model cahierTexte {
@@ -65,7 +64,10 @@ model rapport {
   contenu   String
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+  nom String @default("")
   auteurId  Int
+  Professeur String @default("")
+  matiere String @default("")
   auteur    User     @relation(fields: [auteurId], references: [id])
 }
 
@@ -74,6 +76,5 @@ model avis {
   contenu   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  auteurId  Int
-  auteur    User     @relation(fields: [auteurId], references: [id])
+matiere String @default("")
 }

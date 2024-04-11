@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `rapport` ADD COLUMN `Professeur` VARCHAR(191) NOT NULL DEFAULT '',
+    ADD COLUMN `nom` VARCHAR(191) NOT NULL DEFAULT '';
