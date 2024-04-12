@@ -25,6 +25,7 @@ model User {
   cahierTexte  cahierTexte[]
   empoiDuTemps empoiDuTemps[]
   rapport      rapport[]
+  pv           pv[]
 }
 
 model cahierTexte {
@@ -60,15 +61,15 @@ model empoiDuTemps {
 }
 
 model rapport {
-  id        Int      @id @default(autoincrement())
-  contenu   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime? @updatedAt
-  nom String @default("")
-  auteurId  Int
-  Professeur String @default("")
-  matiere String @default("")
-  auteur    User     @relation(fields: [auteurId], references: [id])
+  id         Int       @id @default(autoincrement())
+  contenu    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  nom        String    @default("")
+  auteurId   Int
+  Professeur String    @default("")
+  matiere    String    @default("")
+  auteur     User      @relation(fields: [auteurId], references: [id])
 }
 
 model avis {
@@ -76,5 +77,16 @@ model avis {
   contenu   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-matiere String @default("")
+  matiere   String   @default("")
+}
+
+model pv {
+  id          Int      @id @default(autoincrement())
+  contenu     String
+  date        String
+  lieu        String
+  objet       String
+  decision    String
+  redacteurId Int
+  redacteur   User     @relation(fields: [redacteurId], references: [id])
 }
