@@ -16,4 +16,7 @@ export class PvDto {
   @IsString()
   @IsNotEmpty()
   contenu: string;
+  @IsString()
+  @IsNotEmpty()
+  auteur: string;
 }

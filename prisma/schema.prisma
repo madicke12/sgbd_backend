@@ -88,5 +88,6 @@ model pv {
   objet       String
   decision    String
   redacteurId Int
+  auteur String
   redacteur   User     @relation(fields: [redacteurId], references: [id])
 }
