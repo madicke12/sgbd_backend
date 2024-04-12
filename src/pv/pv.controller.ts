@@ -10,8 +10,8 @@ export class PvController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('all')
-  get(@Req() req: Request) {
-    return this.pvService.getAll(req);
+  get() {
+    return this.pvService.getAll();
   }
 
   @UseGuards(AuthGuard('jwt'))

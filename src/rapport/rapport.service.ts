@@ -7,12 +7,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RapportService {
   constructor(private prisma: PrismaService) {}
-  async getAllRapport(req: Request) {
-    const user = req.user as User;
+  async getAllRapport() {
 
-    const rapport = await this.prisma.rapport.findMany({
-      where: { auteurId: user.id },
-    });
+    const rapport = await this.prisma.rapport.findMany();
     if (rapport.length > 0) {
       return rapport;
     }

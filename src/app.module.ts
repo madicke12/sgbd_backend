@@ -22,6 +22,12 @@ import { PvService } from './pv/pv.service';
     CahierTexteController,
     PvController,
   ],
-  providers: [AppService, RapportService, AvisService, CahierTexteService, PvService],
+  providers: [
+    AppService,
+    RapportService,
+    AvisService,
+    CahierTexteService,
+    PvService,
+  ],
 })
 export class AppModule {}

@@ -8,12 +8,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class PvService {
   constructor(private prisma: PrismaService) {}
 
-  async getAll(req: Request) {
-    const user = req.user as User;
+  async getAll() {
     try {
-      const data = await this.prisma.pv.findMany({
-        where: { redacteurId: user.id },
-      });
+      const data = await this.prisma.pv.findMany();
       if (data.length <= 0) {
         return { message: 'Pas de PV' };
       }
