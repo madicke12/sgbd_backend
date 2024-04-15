@@ -10,7 +10,7 @@ export class PvService {
 
   async getAll() {
     try {
-      const data = await this.prisma.pv.findMany();
+      const data = await this.prisma.pv.findMany( );
       if (data.length <= 0) {
         return { message: 'Pas de PV' };
       }
